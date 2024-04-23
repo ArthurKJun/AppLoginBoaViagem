@@ -1,9 +1,7 @@
 package com.senac.boasviagens
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.Message
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,8 +35,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.senac.boasviagens.screens.cadUsuario
 import com.senac.boasviagens.ui.theme.BoasViagensTheme
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -81,6 +82,8 @@ fun MyApp(){
     var coroutineScope = rememberCoroutineScope()
 
     val focus = LocalFocusManager.current
+
+    val navController = rememberNavController()
 
     Scaffold (
         snackbarHost = {
@@ -163,13 +166,8 @@ fun MyApp(){
             Button(
                 onClick = {
                     if (pass.value == "senha" && login.value == "Arthur")
-                        coroutineScope.launch {
-                            focus.clearFocus()
-                            snackbarHostState.showSnackbar(
-                                message = "login executado",
-                                withDismissAction = true
-                            )
-                        }else{
+                        navController.navigate("telaCadastro")
+                        else{
                         coroutineScope.launch {
                             focus.clearFocus()
                             snackbarHostState.showSnackbar(
@@ -187,6 +185,18 @@ fun MyApp(){
                     text = "Login",
                     fontSize = 22.sp
                 )
+            }
+
+            NavHost(
+                navController = navController,
+                startDestination = "telaCadastro"
+            ){
+                composable("telaCadastro"){
+                    cadUsuario(onBack = {
+                        navController.navigateUp()
+                    })
+                }
+
             }
 
 
