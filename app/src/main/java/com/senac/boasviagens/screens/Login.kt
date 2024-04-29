@@ -159,9 +159,12 @@ fun telaLogin(onCadUsuario: ()->Unit) {
                     fontSize = 22.sp
                 )
             }
-            
+
             Button(
-                onClick = { onCadUsuario() }
+                onClick = { onCadUsuario() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
             ) {
                 Text(text = "Registrar novo Usuário")
             }
