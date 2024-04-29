@@ -36,7 +36,7 @@ import com.senac.boasviagens.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun telaLogin(onCadUsuario: ()->Unit) {
+fun telaLogin(onCadUsuario: ()->Unit, onLogin: () ->Unit){
 
     var visibi = remember {
         mutableStateOf(false)
@@ -141,8 +141,9 @@ fun telaLogin(onCadUsuario: ()->Unit) {
 
             Button(
                 onClick = {
-                    if (pass.value == "senha" && login.value == "Arthur")
+                    if (pass.value == "admin" && login.value == "admin")
                         //navController.navigate("telaCadastro")
+                        onLogin()
                     else {
                         coroutineScope.launch {
                             focus.clearFocus()

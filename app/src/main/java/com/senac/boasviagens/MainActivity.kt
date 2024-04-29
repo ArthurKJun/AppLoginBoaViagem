@@ -7,12 +7,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.senac.boasviagens.screens.Menu
 import com.senac.boasviagens.ui.theme.BoasViagensTheme
 import com.senac.boasviagens.screens.telaLogin
 import com.senac.boasviagens.screens.cadUsuario
@@ -50,11 +50,20 @@ fun MyApp(){
 
                     telaLogin (onCadUsuario = {
                         navController.navigate("cadUsuario")
-                    })
+                    },
+                        onLogin = {
+                            navController.navigate("Menu")
+                        })
                 }
 
                 composable("cadUsuario"){
                     cadUsuario(onBack = {navController.navigateUp()})
+                }
+
+                composable("menu"){
+                    Menu(onBack = {
+                        navController.navigateUp()
+                    })
                 }
 
             }
