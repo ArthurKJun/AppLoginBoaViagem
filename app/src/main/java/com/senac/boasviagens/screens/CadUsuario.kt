@@ -1,6 +1,7 @@
 package com.senac.boasviagens.screens
 
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,8 +11,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -24,9 +28,22 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun cadUsuario(onBack: () -> Unit) {//retorno do botao para voltar a main
 
+    val login = remember {
+        mutableStateOf("")
+    }
+
+    val senha = remember {
+        mutableStateOf("")
+    }
+
+    val email = remember {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
+
     ) {
 
         Row {
@@ -36,6 +53,7 @@ fun cadUsuario(onBack: () -> Unit) {//retorno do botao para voltar a main
                 fontSize = 26.sp,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(top = 25.dp)
             )
         }
 
@@ -54,9 +72,10 @@ fun cadUsuario(onBack: () -> Unit) {//retorno do botao para voltar a main
         Row(
 
         ) {
+
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = login.value,
+                onValueChange = {login.value = it},
                 modifier = Modifier
                     .padding(start = 55.dp, top = 10.dp)
             )
@@ -79,18 +98,42 @@ fun cadUsuario(onBack: () -> Unit) {//retorno do botao para voltar a main
 
         ) {
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = senha.value,
+                onValueChange = {senha.value = it},
                 modifier = Modifier
                     .padding(start = 55.dp, top = 10.dp)
             )
         }
 
         Row {
+            Text(
+                text = "Email",
+                fontSize = 22.sp,
+                textAlign = TextAlign.Center,
+
+                modifier = Modifier
+                    .padding(top = 15.dp)
+                    .fillMaxWidth()
+            )
+        }
+
+        Row(
+
+        ) {
+            OutlinedTextField(
+                value = email.value,
+                onValueChange = {email.value = it},
+                modifier = Modifier
+                    .padding(start = 55.dp, top = 10.dp)
+            )
+        }
+
+
+        Row {
             Button(
                 onClick = { onBack() },
                 modifier = Modifier
-                    .padding(start = 127.dp, top = 10.dp)
+                    .padding(start = 127.dp, top = 25.dp)
 
 
             ) {
