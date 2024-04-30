@@ -3,9 +3,7 @@ package com.senac.boasviagens.screens
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,12 +17,12 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,25 +31,19 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.senac.boasviagens.R
+import com.senac.boasviagens.viewmodels.DadosViewModel
 import kotlinx.coroutines.launch
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun telaLogin(onCadUsuario: ()->Unit, onLogin: () ->Unit){
-
-    var visibi = remember {
-        mutableStateOf(false)
-    }
+fun telaLogin(
+    onCadUsuario: () -> Unit,
+    onLogin: () -> Unit,
+    dadosViewModel: DadosViewModel = viewModel()
+) {
 
     val snackbarHostState = remember {
         SnackbarHostState()
-    }
-
-    var login = remember {
-        mutableStateOf("")
-    }
-
-    var pass = remember {
-        mutableStateOf("")
     }
 
     var coroutineScope = rememberCoroutineScope()
@@ -70,6 +62,11 @@ fun telaLogin(onCadUsuario: ()->Unit, onLogin: () ->Unit){
                 .padding(it)
 
         ) {
+
+            val loginState = dadosViewModel.uiState.collectAsState()
+            val passState = dadosViewModel.uiState.collectAsState()
+            val visivelState = dadosViewModel.uiState.collectAsState()
+
             Image(
                 painter = painterResource(id = R.drawable.viagem),
                 contentDescription = "Cabana",
@@ -87,8 +84,8 @@ fun telaLogin(onCadUsuario: ()->Unit, onLogin: () ->Unit){
             )
 
             OutlinedTextField(
-                value = login.value,
-                onValueChange = { login.value = it },
+                value = loginState.value.login,
+                onValueChange = { dadosViewModel.updateLogin(it) },
                 label = {
                     Text(text = "Login")
                 },
@@ -106,8 +103,8 @@ fun telaLogin(onCadUsuario: ()->Unit, onLogin: () ->Unit){
             )
 
             OutlinedTextField(
-                value = pass.value,
-                onValueChange = { pass.value = it },
+                value = passState.value.senha,
+                onValueChange = { dadosViewModel.updateSenha(it) },
                 label = {
                     Text(text = "Password")
                 },
@@ -115,16 +112,16 @@ fun telaLogin(onCadUsuario: ()->Unit, onLogin: () ->Unit){
                     keyboardType = KeyboardType.Password
                 ),
                 visualTransformation =
-                if (visibi.value)
+                if (visivelState.value.visivel)
                     VisualTransformation.None
                 else
                     PasswordVisualTransformation(),
 
                 trailingIcon = {
                     IconButton(onClick = {
-                        visibi.value = !visibi.value
+                        dadosViewModel.updadeVisivel(!visivelState.value.visivel)
                     }) {
-                        if (visibi.value)
+                        if (visivelState.value.visivel)
                             Icon(
                                 painterResource(id = R.drawable.visiblee), ""
                             )
@@ -141,8 +138,8 @@ fun telaLogin(onCadUsuario: ()->Unit, onLogin: () ->Unit){
 
             Button(
                 onClick = {
-                    if (pass.value == "admin" && login.value == "admin")
-                        //navController.navigate("telaCadastro")
+                    if (passState.value.senha == "admin" && loginState.value.login == "admin")
+                    //navController.navigate("telaCadastro")
                         onLogin()
                     else {
                         coroutineScope.launch {
