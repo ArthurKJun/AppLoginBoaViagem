@@ -30,18 +30,6 @@ fun cadUsuario(
 
     ) {//retorno do botao para voltar a main
 
-    val login = remember {
-        mutableStateOf("")
-    }
-
-    val senha = remember {
-        mutableStateOf("")
-    }
-
-    val email = remember {
-        mutableStateOf("")
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
