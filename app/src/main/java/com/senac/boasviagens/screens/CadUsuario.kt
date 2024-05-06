@@ -1,7 +1,7 @@
 package com.senac.boasviagens.screens
 
 
-import androidx.compose.foundation.background
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,40 +11,34 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.senac.boasviagens.viewmodels.DadosViewModel
 
 @Composable
-fun cadUsuario(onBack: () -> Unit) {//retorno do botao para voltar a main
+fun cadUsuario(
 
-    val login = remember {
-        mutableStateOf("")
-    }
+        onBack: () -> Unit,
+        dadosViewModel: DadosViewModel = viewModel()
 
-    val senha = remember {
-        mutableStateOf("")
-    }
-
-    val email = remember {
-        mutableStateOf("")
-    }
+    ) {//retorno do botao para voltar a main
 
     Column(
         modifier = Modifier
             .fillMaxSize()
 
     ) {
+
+        val loginState = dadosViewModel.uiState.collectAsState()
+        val passState = dadosViewModel.uiState.collectAsState()
+        val emailState = dadosViewModel.uiState.collectAsState()
 
         Row {
             Text(
@@ -74,8 +68,8 @@ fun cadUsuario(onBack: () -> Unit) {//retorno do botao para voltar a main
         ) {
 
             OutlinedTextField(
-                value = login.value,
-                onValueChange = {login.value = it},
+                value = loginState.value.login,
+                onValueChange = {dadosViewModel.updateLogin(it)},
                 modifier = Modifier
                     .padding(start = 55.dp, top = 10.dp)
             )
@@ -98,8 +92,8 @@ fun cadUsuario(onBack: () -> Unit) {//retorno do botao para voltar a main
 
         ) {
             OutlinedTextField(
-                value = senha.value,
-                onValueChange = {senha.value = it},
+                value = passState.value.senha,
+                onValueChange = {dadosViewModel.updateSenha(it)},
                 modifier = Modifier
                     .padding(start = 55.dp, top = 10.dp)
             )
@@ -121,8 +115,8 @@ fun cadUsuario(onBack: () -> Unit) {//retorno do botao para voltar a main
 
         ) {
             OutlinedTextField(
-                value = email.value,
-                onValueChange = {email.value = it},
+                value = emailState.value.email,
+                onValueChange = {dadosViewModel.updateEmail(it)},
                 modifier = Modifier
                     .padding(start = 55.dp, top = 10.dp)
             )
