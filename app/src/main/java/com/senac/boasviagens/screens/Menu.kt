@@ -1,52 +1,78 @@
 package com.senac.boasviagens.screens
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+
+private fun isSelected(currentDestination: NavDestination?, route:String): Boolean {
+    return currentDestination?.hierarchy?.any {it.route == route} == true
+}
+
+
+@Composable
+fun Home() {
+    Text(text = "teste")
+}
 
 @Composable
 fun Menu(onBack: () ->Unit){
 
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = "home"
+    ) {
+        composable("home") {
+            Home ()
+        }
+    }
+
+Scaffold (
+    bottomBar = {
+        val navBackStackEntry = navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.value?.destination
+
+        BottomNavigation {
+
+            BottomNavigationItem(
+                selected = isSelected(currentDestination, "menu"),
+                onClick = { navController.navigate("menu") },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Filled.Home,
+                        contentDescription = ""
+                    )
+                }
+            )
+        }
+    }
+){
     Column (
         modifier = Modifier
             .fillMaxSize()
+            .padding(it)
 
     ){
 
-        Row {
-            Button(
-                onClick = { onBack() },
-                modifier = Modifier
-                    .padding(start = 312.dp, top = 5.dp)
-
-            ) {
-                Text(text = "Sair")
-            }
-        }
-
-        Row {
-            Text(
-                text = "Menu do Sistema",
-                fontSize = 26.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 15.dp)
-            )
-        }
-
-
     }
+}
 }
 
 @Preview(showBackground = true)
