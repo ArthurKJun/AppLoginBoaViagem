@@ -8,6 +8,8 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,6 +44,9 @@ fun Menu(onBack: () ->Unit){
         composable("home") {
             Home ()
         }
+        composable("login"){
+            telaLogin(onCadUsuario = { /*TODO*/ }, onLogin = { /*TODO*/ })
+        }
     }
 
 Scaffold (
@@ -52,11 +57,33 @@ Scaffold (
         BottomNavigation {
 
             BottomNavigationItem(
+                selected = isSelected(currentDestination, "login"),
+                onClick = { navController.navigate("login") },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Filled.Home,
+                        contentDescription = ""
+                    )
+                }
+            )
+
+            BottomNavigationItem(
                 selected = isSelected(currentDestination, "menu"),
                 onClick = { navController.navigate("menu") },
                 icon = {
                     Icon(
-                        imageVector = Icons.Filled.Home,
+                        imageVector = Icons.Filled.Person,
+                        contentDescription = ""
+                    )
+                }
+            )
+
+            BottomNavigationItem(
+                selected = isSelected(currentDestination, "menu"),
+                onClick = { navController.navigate("menu") },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Filled.Settings,
                         contentDescription = ""
                     )
                 }
