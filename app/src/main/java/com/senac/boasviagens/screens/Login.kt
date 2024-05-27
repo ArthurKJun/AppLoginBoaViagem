@@ -138,7 +138,7 @@ fun telaLogin(
 
             Button(
                 onClick = {
-                    if (passState.value.senha == "admin" && loginState.value.login == "admin")
+                    if (passState.value.senha == "aa" && loginState.value.login == "aa")
                     //navController.navigate("telaCadastro")
                         onLogin()
                     else {

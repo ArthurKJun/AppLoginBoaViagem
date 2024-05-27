@@ -26,10 +26,12 @@ private fun isSelected(currentDestination: NavDestination?, route:String): Boole
     return currentDestination?.hierarchy?.any {it.route == route} == true
 }
 
-
 @Composable
 fun Home() {
-    Text(text = "teste")
+    Column {
+        Text(text = "home")
+    }
+
 }
 
 @Composable
@@ -37,17 +39,7 @@ fun Menu(onBack: () ->Unit){
 
     val navController = rememberNavController()
 
-    NavHost(
-        navController = navController,
-        startDestination = "home"
-    ) {
-        composable("home") {
-            Home ()
-        }
-        composable("login"){
-            telaLogin(onCadUsuario = { /*TODO*/ }, onLogin = { /*TODO*/ })
-        }
-    }
+
 
 Scaffold (
     bottomBar = {
@@ -79,8 +71,8 @@ Scaffold (
             )
 
             BottomNavigationItem(
-                selected = isSelected(currentDestination, "menu"),
-                onClick = { navController.navigate("menu") },
+                selected = isSelected(currentDestination, "sobre"),
+                onClick = { navController.navigate("sobre") },
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.Settings,
@@ -97,7 +89,23 @@ Scaffold (
             .padding(it)
 
     ){
+        NavHost(
+            navController = navController,
+            startDestination = "home"
+        ) {
+            composable("home") {
+                Home()
+            }
+            composable("viagem"){
+                Viagens()
+            }
 
+            composable("sobre"){
+                Sobre()
+            }
+
+
+        }
     }
 }
 }
