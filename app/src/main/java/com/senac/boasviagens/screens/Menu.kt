@@ -49,8 +49,8 @@ Scaffold (
         BottomNavigation {
 
             BottomNavigationItem(
-                selected = isSelected(currentDestination, "login"),
-                onClick = { navController.navigate("login") },
+                selected = isSelected(currentDestination, "home"),
+                onClick = { navController.navigate("home") },
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.Home,
@@ -60,8 +60,8 @@ Scaffold (
             )
 
             BottomNavigationItem(
-                selected = isSelected(currentDestination, "menu"),
-                onClick = { navController.navigate("menu") },
+                selected = isSelected(currentDestination, "viagem"),
+                onClick = { navController.navigate("viagem") },
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.Person,
