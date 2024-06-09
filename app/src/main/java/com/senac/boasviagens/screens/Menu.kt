@@ -97,7 +97,7 @@ Scaffold (
                 Home()
             }
             composable("viagem"){
-                Viagens()
+                Destinos()
             }
 
             composable("sobre"){
