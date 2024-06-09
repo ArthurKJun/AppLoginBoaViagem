@@ -39,8 +39,6 @@ fun Menu(onBack: () ->Unit){
 
     val navController = rememberNavController()
 
-
-
 Scaffold (
     bottomBar = {
         val navBackStackEntry = navController.currentBackStackEntryAsState()

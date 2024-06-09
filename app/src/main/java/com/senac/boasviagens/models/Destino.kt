@@ -5,6 +5,7 @@ data class Destino (
     val destino: String = "",
     val inicio: String = "",
     val fim: String = "",
-    val valor: Double
+    val valor: Double,
+    val finalidade : String = ""
 ){//data = não preciso escrever os getters e setters
 }

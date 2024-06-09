@@ -17,7 +17,7 @@ fun MyTopBar(){
     TopAppBar(
 
         navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {  }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = null

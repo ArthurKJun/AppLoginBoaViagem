@@ -22,6 +22,9 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.senac.boasviagens.components.MyTopBar
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -30,7 +33,7 @@ import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Viagens() {
+fun Viagens(onBack: ()->Unit) {
     Scaffold(
         topBar = {
             MyTopBar()
@@ -55,11 +58,14 @@ fun Viagens() {
 
         val datePickerStateFinal = rememberDatePickerState()
 
+        val navController = rememberNavController()
+
         Column(
             modifier = Modifier
                 .padding(it)
                 .padding(16.dp)
         ) {
+
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -257,7 +263,7 @@ fun Viagens() {
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Button(
-                    onClick = {  },
+                    onClick = { onBack() },
                     modifier = Modifier
                         .padding(top = 35.dp)
                         .weight(2f)
