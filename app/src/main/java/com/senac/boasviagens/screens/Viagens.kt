@@ -58,7 +58,7 @@ fun Viagens(onBack: ()->Unit) {
 
         val datePickerStateFinal = rememberDatePickerState()
 
-        val navController = rememberNavController()
+
 
         Column(
             modifier = Modifier

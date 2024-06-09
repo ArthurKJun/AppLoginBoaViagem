@@ -138,18 +138,18 @@ fun telaLogin(
 
             Button(
                 onClick = {
-                    if (passState.value.senha == "aa" && loginState.value.login == "aa")
+                    //if (passState.value.senha == "aa" && loginState.value.login == "aa")
                     //navController.navigate("telaCadastro")
                         onLogin()
-                    else {
-                        coroutineScope.launch {
-                            focus.clearFocus()
-                            snackbarHostState.showSnackbar(
-                                message = "login ou Senha errados",
-                                withDismissAction = true
-                            )
-                        }
-                    }
+//                    else {
+//                        coroutineScope.launch {
+//                            focus.clearFocus()
+//                            snackbarHostState.showSnackbar(
+//                                message = "login ou Senha errados",
+//                                withDismissAction = true
+//                            )
+//                        }
+                   // }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

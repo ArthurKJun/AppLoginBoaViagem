@@ -61,9 +61,7 @@ fun MyApp(){
                 }
 
                 composable("menu"){
-                    Menu(onBack = {
-                        navController.navigateUp()
-                    })
+                    Menu()
                 }
 
             }

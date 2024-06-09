@@ -171,11 +171,7 @@ fun DestinoCard(p: Destino) {
                         )
                     }
                 }
-
-
             }
-
-
         }
     }
 }
