@@ -58,8 +58,6 @@ fun Viagens(onBack: ()->Unit) {
 
         val datePickerStateFinal = rememberDatePickerState()
 
-
-
         Column(
             modifier = Modifier
                 .padding(it)
