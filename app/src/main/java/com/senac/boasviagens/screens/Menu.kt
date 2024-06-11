@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
@@ -24,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.senac.boasviagens.R
+import com.senac.boasviagens.components.MyTopBar
 
 private fun isSelected(currentDestination: NavDestination?, route:String): Boolean {
     return currentDestination?.hierarchy?.any {it.route == route} == true
@@ -31,16 +33,21 @@ private fun isSelected(currentDestination: NavDestination?, route:String): Boole
 
 @Composable
 fun Home() {
-    Column (
 
-
-        modifier = Modifier
-            .fillMaxSize()
-
+    Scaffold (
+        topBar = {
+            MyTopBar("Home")
+        }
     ){
-        Text(text = "home")
-    }
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
 
+        ){
+            Text(text = "home")
+        }
+    }
 }
 
 @Composable
@@ -69,8 +76,8 @@ Scaffold (
             )
 
             BottomNavigationItem(
-                selected = isSelected(currentDestination, "viagem"),
-                onClick = { navController.navigate("viagem") },
+                selected = isSelected(currentDestination, "destinos"),
+                onClick = { navController.navigate("destinos") },
                 icon = {
                     Icon(
                         painter = painterResource(id = R.drawable.descolar),
@@ -109,7 +116,7 @@ Scaffold (
             composable("home") {
                 Home()
             }
-            composable("viagem"){
+            composable("destinos"){
                 Destinos()
             }
 

@@ -35,6 +35,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.senac.boasviagens.R
+import com.senac.boasviagens.components.MyTopBar
 import com.senac.boasviagens.models.Destino
 
 fun dest(){
@@ -43,6 +44,7 @@ fun dest(){
 
 @Composable
 fun Destinos() {
+
 
     val list = listOf(
         Destino(1, "Egito", "12/12/2022", "05/01/2023", 12585.50, "lazer"),
@@ -70,6 +72,10 @@ fun Destinos() {
                     contentDescription = ""
                 )
             }
+        },
+
+        topBar = {
+            MyTopBar(p = "Destinos")
         }
     ) {
         Column(

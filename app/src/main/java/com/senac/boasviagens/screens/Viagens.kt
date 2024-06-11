@@ -36,7 +36,7 @@ import java.util.TimeZone
 fun Viagens(onBack: ()->Unit) {
     Scaffold(
         topBar = {
-            MyTopBar()
+            MyTopBar("Nova Viagem")
         }
     ) {
 
