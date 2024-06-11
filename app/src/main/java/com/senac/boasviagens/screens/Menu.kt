@@ -31,7 +31,13 @@ private fun isSelected(currentDestination: NavDestination?, route:String): Boole
 
 @Composable
 fun Home() {
-    Column {
+    Column (
+
+
+        modifier = Modifier
+            .fillMaxSize()
+
+    ){
         Text(text = "home")
     }
 
