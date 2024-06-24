@@ -1,7 +1,6 @@
 package com.senac.boasviagens.screens
 
 
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,21 +12,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.senac.boasviagens.dataBase.AppDataBase
 import com.senac.boasviagens.viewmodels.DadosViewModel
+import com.senac.boasviagens.viewmodels.DadosViewModelFactory
 
 @Composable
 fun cadUsuario(
 
-        onBack: () -> Unit,
-        dadosViewModel: DadosViewModel = viewModel()
+    onBack: () -> Unit
 
-    ) {//retorno do botao para voltar a main
 
+) {//retorno do botao para voltar a main
+
+    val dadosViewModel: DadosViewModel = viewModel(
+        factory = DadosViewModelFactory(AppDataBase.getDatabase(LocalContext.current))
+    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +72,7 @@ fun cadUsuario(
 
             OutlinedTextField(
                 value = loginState.value.login,
-                onValueChange = {dadosViewModel.updateLogin(it)},
+                onValueChange = { dadosViewModel.updateLogin(it) },
                 modifier = Modifier
                     .padding(start = 55.dp, top = 10.dp)
             )
@@ -91,7 +96,7 @@ fun cadUsuario(
         ) {
             OutlinedTextField(
                 value = passState.value.senha,
-                onValueChange = {dadosViewModel.updateSenha(it)},
+                onValueChange = { dadosViewModel.updateSenha(it) },
                 modifier = Modifier
                     .padding(start = 55.dp, top = 10.dp)
             )
@@ -114,7 +119,7 @@ fun cadUsuario(
         ) {
             OutlinedTextField(
                 value = emailState.value.email,
-                onValueChange = {dadosViewModel.updateEmail(it)},
+                onValueChange = { dadosViewModel.updateEmail(it) },
                 modifier = Modifier
                     .padding(start = 55.dp, top = 10.dp)
             )
@@ -123,7 +128,10 @@ fun cadUsuario(
 
         Row {
             Button(
-                onClick = { onBack() },
+                onClick = {
+                    onBack()
+                    dadosViewModel.saveNew()
+                },
                 modifier = Modifier
                     .padding(start = 127.dp, top = 25.dp)
 

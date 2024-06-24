@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -34,14 +35,21 @@ import com.senac.boasviagens.R
 import com.senac.boasviagens.viewmodels.DadosViewModel
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.senac.boasviagens.dataBase.AppDataBase
+import com.senac.boasviagens.viewmodels.DadosViewModelFactory
 
 @Composable
 fun telaLogin(
     onCadUsuario: () -> Unit,
-    onLogin: () -> Unit,
-    dadosViewModel: DadosViewModel = viewModel()
-) {
+    onLogin: () -> Unit
 
+
+) {
+    val db = AppDataBase.getDatabase(LocalContext.current)
+
+    val dadosViewModel: DadosViewModel = viewModel(
+        factory = DadosViewModelFactory(db)
+    )
     val snackbarHostState = remember {
         SnackbarHostState()
     }
