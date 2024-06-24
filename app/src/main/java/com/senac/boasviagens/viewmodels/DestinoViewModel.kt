@@ -3,40 +3,44 @@ package com.senac.boasviagens.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.senac.boasviagens.dao.DadosDao
+import com.senac.boasviagens.dao.DestinoDao
 import com.senac.boasviagens.dataBase.AppDataBase
-import com.senac.boasviagens.models.Dados
+import com.senac.boasviagens.models.Destino
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DadosViewModelFactory(val db : AppDataBase) : ViewModelProvider.Factory{//tem que criar para usar o db
+class DestinoViewModelFactory(val db : AppDataBase) : ViewModelProvider.Factory{//tem que criar para usar o db
 override fun <T : ViewModel> create(modelClass: Class<T>): T {
     return DadosViewModel(db.dadosDao) as T
 }
 }
 
-class DadosViewModel (val dadosDao: DadosDao): ViewModel(){
+class DestinoViewModel(val destinoDao: DestinoDao) {
 
-    private val _uiState = MutableStateFlow(Dados())
-    val uiState : StateFlow<Dados> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(Destino())
+    val uiState : StateFlow<Destino> = _uiState.asStateFlow()
 
-    fun updateLogin(newLogin : String){
-        _uiState.update { it.copy(login = newLogin) }
+    fun updateDestino(newDestino : String){
+        _uiState.update { it.copy(destino = newDestino) }
     }
 
-    fun updateSenha(newSenha : String){
-        _uiState.update { it.copy(senha = newSenha) }
+    fun updateInicio(newInicio : String){
+        _uiState.update { it.copy(inicio = newInicio) }
     }
 
-    fun updadeVisivel (newVisivel : Boolean){
-        _uiState.update { it.copy(visivel = newVisivel) }
+    fun updadeFim (newFim : String){
+        _uiState.update { it.copy(fim = newFim) }
     }
 
-    fun updateEmail (newEmail : String){
-        _uiState.update { it.copy(email = newEmail) }
+    fun updateValor (newValor : Double){
+        _uiState.update { it.copy(valor = newValor) }
+    }
+
+    fun updadeFinalidade (newFinalidade : String){
+        _uiState.update { it.copy(finalidade = newFinalidade) }
     }
 
     private fun updateId (id : Long){
@@ -64,4 +68,5 @@ class DadosViewModel (val dadosDao: DadosDao): ViewModel(){
             it.copy(id = 0, login = "", senha = "", visivel = false ,email = "")
         }
     }
+
 }
