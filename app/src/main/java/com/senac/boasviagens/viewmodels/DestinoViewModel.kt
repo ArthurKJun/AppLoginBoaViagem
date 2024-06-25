@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class DestinoViewModelFactory(val db : AppDataBase) : ViewModelProvider.Factory{//tem que criar para usar o db
 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-    return DadosViewModel(db.dadosDao) as T
+    return DestinoViewModel(db.destinoDao) as T
 }
 }
 

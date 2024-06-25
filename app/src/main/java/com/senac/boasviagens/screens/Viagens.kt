@@ -14,18 +14,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.senac.boasviagens.components.MyTopBar
+import com.senac.boasviagens.dataBase.AppDataBase
+import com.senac.boasviagens.viewmodels.DestinoViewModel
+import com.senac.boasviagens.viewmodels.DestinoViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -40,23 +43,27 @@ fun Viagens(onBack: ()->Unit) {
         }
     ) {
 
-        var showDatePickerDialogInicio = remember {
+        val showDatePickerDialogInicio = remember {
             mutableStateOf(false)
         }
-        var selectedDateInicio = remember {
+        val selectedDateInicio = remember {
             mutableStateOf("")
         }
 
         val datePickerStateInicio = rememberDatePickerState()
 
-        var showDatePickerDialogFinal = remember {
+        val showDatePickerDialogFinal = remember {
             mutableStateOf(false)
         }
-        var selectedDateFinal = remember {
+        val selectedDateFinal = remember {
             mutableStateOf("")
         }
 
         val datePickerStateFinal = rememberDatePickerState()
+
+        val destinoViewModel: DestinoViewModel = viewModel(
+            factory = DestinoViewModelFactory(AppDataBase.getDatabase(LocalContext.current))
+        )
 
         Column(
             modifier = Modifier
@@ -77,8 +84,8 @@ fun Viagens(onBack: ()->Unit) {
 
             Row {
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = destinoViewModel.uiState.collectAsState().value.destino,
+                    onValueChange = {destinoViewModel.updateDestino(it)},
                     modifier = Modifier
                         .weight(4f)
                         .padding(top = 10.dp)
@@ -169,7 +176,7 @@ fun Viagens(onBack: ()->Unit) {
 
                 OutlinedTextField(
                     value = selectedDateInicio.value,
-                    onValueChange = { },
+                    onValueChange = {destinoViewModel.updateInicio(it)},
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth()
@@ -221,7 +228,7 @@ fun Viagens(onBack: ()->Unit) {
 
                 OutlinedTextField(
                     value = selectedDateFinal.value,
-                    onValueChange = { },
+                    onValueChange = {destinoViewModel.updadeFim(it)},
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth()
@@ -249,8 +256,8 @@ fun Viagens(onBack: ()->Unit) {
 
             Row {
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = destinoViewModel.uiState.collectAsState().value.valor.toString(),
+                    onValueChange = {destinoViewModel.updateValor(it.toDouble())},
                     modifier = Modifier
                         .weight(4f)
                         .padding(top = 10.dp)
@@ -261,7 +268,10 @@ fun Viagens(onBack: ()->Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Button(
-                    onClick = { onBack() },
+                    onClick = {
+                        onBack()
+                        destinoViewModel.save()
+                    },
                     modifier = Modifier
                         .padding(top = 35.dp)
                         .weight(2f)

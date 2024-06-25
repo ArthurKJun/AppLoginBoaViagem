@@ -55,6 +55,7 @@ fun Destinos() {
     val navController = rememberNavController()
 
     val ctx = LocalContext.current
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
