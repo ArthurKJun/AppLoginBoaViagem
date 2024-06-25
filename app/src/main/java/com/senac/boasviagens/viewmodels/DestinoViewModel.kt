@@ -18,7 +18,7 @@ override fun <T : ViewModel> create(modelClass: Class<T>): T {
 }
 }
 
-class DestinoViewModel(val destinoDao: DestinoDao) {
+class DestinoViewModel(val destinoDao: DestinoDao) : ViewModel(){
 
     private val _uiState = MutableStateFlow(Destino())
     val uiState : StateFlow<Destino> = _uiState.asStateFlow()
@@ -51,7 +51,7 @@ class DestinoViewModel(val destinoDao: DestinoDao) {
 
     fun save(){
         viewModelScope.launch { //cria um processo separado para nao travar o programa tudo que tem acesso ao banco
-            val id = dadosDao.upsert(uiState.value) //insere ou altera se tiver
+            val id = destinoDao.upsert(uiState.value) //insere ou altera se tiver
             if (id > 0){
                 updateId(id)
             }
@@ -65,7 +65,7 @@ class DestinoViewModel(val destinoDao: DestinoDao) {
 
     private fun new() {
         _uiState.update {
-            it.copy(id = 0, login = "", senha = "", visivel = false ,email = "")
+            it.copy(id = 0, destino = "", inicio = "", fim = "" , valor = 0.00, finalidade = "")
         }
     }
 
