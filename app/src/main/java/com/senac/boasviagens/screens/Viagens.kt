@@ -160,7 +160,7 @@ fun Viagens(onBack: ()->Unit) {
                                 onClick = {
                                     datePickerStateInicio
                                         .selectedDateMillis?.let { millis ->
-                                            selectedDateInicio.value = millis.toBrazilianDateFormat()
+                                            destinoViewModel.updateInicio(millis.toBrazilianDateFormat())
                                         }
                                     showDatePickerDialogInicio.value = false
                                 }) {
@@ -175,7 +175,7 @@ fun Viagens(onBack: ()->Unit) {
                 }
 
                 OutlinedTextField(
-                    value = selectedDateInicio.value,
+                    value = destinoViewModel.uiState.collectAsState().value.inicio,
                     onValueChange = {destinoViewModel.updateInicio(it)},
                     modifier = Modifier
                         .padding(8.dp)
@@ -212,7 +212,7 @@ fun Viagens(onBack: ()->Unit) {
                                 onClick = {
                                     datePickerStateFinal
                                         .selectedDateMillis?.let { millis ->
-                                            selectedDateFinal.value = millis.toBrazilianDateFormat()
+                                            destinoViewModel.updadeFim(millis.toBrazilianDateFormat())
                                         }
                                     showDatePickerDialogFinal.value = false
                                 }) {
@@ -227,7 +227,7 @@ fun Viagens(onBack: ()->Unit) {
                 }
 
                 OutlinedTextField(
-                    value = selectedDateFinal.value,
+                    value = destinoViewModel.uiState.collectAsState().value.inicio,
                     onValueChange = {destinoViewModel.updadeFim(it)},
                     modifier = Modifier
                         .padding(8.dp)
