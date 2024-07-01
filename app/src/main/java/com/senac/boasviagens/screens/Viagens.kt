@@ -107,8 +107,8 @@ fun Viagens(onBack: ()->Unit) {
             ) {
 
                 RadioButton(
-                    selected = false,
-                    onClick = {},
+                selected = destinoViewModel.uiState.collectAsState().value.finalidade == "lazer", // it.value.tipo == "lazer"
+                    onClick = {destinoViewModel.updadeFinalidade("lazer")}, /// vm.updateFinalidade("lazer")
                     modifier = Modifier
                         .weight(0.5f)
                 )
@@ -122,8 +122,8 @@ fun Viagens(onBack: ()->Unit) {
                 )
 
                 RadioButton(
-                    selected = true,
-                    onClick = {},
+                    selected = destinoViewModel.uiState.collectAsState().value.finalidade == "negocio", // it.value.tipo == "negocio"
+                    onClick = {destinoViewModel.updadeFinalidade("negocio")}, /// vm.updateFinalidade("negocio")
                     modifier = Modifier
                         .weight(0.5f)
                 )
@@ -176,7 +176,7 @@ fun Viagens(onBack: ()->Unit) {
 
                 OutlinedTextField(
                     value = selectedDateInicio.value,
-                    onValueChange = {destinoViewModel.updateInicio(it)},
+                    onValueChange = {},
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth()
@@ -228,7 +228,7 @@ fun Viagens(onBack: ()->Unit) {
 
                 OutlinedTextField(
                     value = selectedDateFinal.value,
-                    onValueChange = {destinoViewModel.updadeFim(it)},
+                    onValueChange = {},
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth()

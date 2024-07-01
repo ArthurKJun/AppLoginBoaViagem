@@ -20,10 +20,10 @@ interface DestinoDao {
     @Upsert //insere ou altera depende se recebe o id ou nao
     suspend fun upsert(destino: Destino) : Long //suspend diz que pode ser executado fora da tread principal
 
-    @Query("select * from dados p order by p.id")
+    @Query("select * from destino p order by p.id")
     fun getAll() : Flow<List<Destino>> //flow monitora o banco e traz as alterações
 
-    @Query("select * from dados p where p.id = :id")
+    @Query("select * from destino p where p.id = :id")
     fun findById(id : Long) : Destino? //interrogação poder ser que nao retorne o produto
 
     @Delete

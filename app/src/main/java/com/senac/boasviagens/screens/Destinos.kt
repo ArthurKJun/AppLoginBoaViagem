@@ -73,11 +73,8 @@ fun Destinos() {
                     contentDescription = ""
                 )
             }
-        },
-
-        topBar = {
-            MyTopBar(p = "Destinos")
         }
+
     ) {
         Column(
             modifier = Modifier
