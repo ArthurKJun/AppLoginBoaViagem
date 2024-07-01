@@ -69,4 +69,7 @@ class DestinoViewModel(val destinoDao: DestinoDao) : ViewModel(){
         }
     }
 
+    fun getAll() = destinoDao.getAll()
+
+
 }

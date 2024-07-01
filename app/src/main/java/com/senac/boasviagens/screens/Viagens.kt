@@ -176,7 +176,7 @@ fun Viagens(onBack: ()->Unit) {
 
                 OutlinedTextField(
                     value = selectedDateInicio.value,
-                    onValueChange = {},
+                    onValueChange = {destinoViewModel.updateInicio(it)},
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth()
@@ -228,7 +228,7 @@ fun Viagens(onBack: ()->Unit) {
 
                 OutlinedTextField(
                     value = selectedDateFinal.value,
-                    onValueChange = {},
+                    onValueChange = {destinoViewModel.updadeFim(it)},
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth()
@@ -269,8 +269,10 @@ fun Viagens(onBack: ()->Unit) {
             ){
                 Button(
                     onClick = {
-                        onBack()
+
                         destinoViewModel.save()
+                        onBack()
+
                     },
                     modifier = Modifier
                         .padding(top = 35.dp)

@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -31,12 +32,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.senac.boasviagens.R
 import com.senac.boasviagens.components.MyTopBar
+import com.senac.boasviagens.dataBase.AppDataBase
 import com.senac.boasviagens.models.Destino
+import com.senac.boasviagens.viewmodels.DestinoViewModel
+import com.senac.boasviagens.viewmodels.DestinoViewModelFactory
 
 fun dest(){
 
@@ -46,11 +51,17 @@ fun dest(){
 fun Destinos() {
 
 
+    val destinoViewModel: DestinoViewModel = viewModel(
+        factory = DestinoViewModelFactory(AppDataBase.getDatabase(LocalContext.current))
+    )
+
     val list = listOf(
         Destino(1, "Egito", "12/12/2022", "05/01/2023", 12585.50, "lazer"),
         Destino(2, "França", "08/12/2021", "02/01/2022", 45398.45, "trabalho"),
         Destino(3, "Suiça", "18/12/2020", "03/01/2021", 65524.25, "lazer")
     )
+
+    val destinosLista = destinoViewModel.getAll().collectAsState(initial = emptyList())
 
     val navController = rememberNavController()
 
@@ -62,7 +73,6 @@ fun Destinos() {
                 onClick = {
 
                     navController.navigate("viagem")
-
 //                    Toast.makeText(
 //                        ctx, "novo",
 //                        Toast.LENGTH_SHORT
@@ -97,8 +107,10 @@ fun Destinos() {
 
             }
 
+
+
             LazyColumn {
-                items(items = list) {
+                items(items = destinosLista.value) {
                     DestinoCard(p = it)
                 }
             }
