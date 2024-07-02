@@ -57,7 +57,6 @@ fun telaLogin(
 
     val focus = LocalFocusManager.current
 
-
     Scaffold(
         snackbarHost = {
             SnackbarHost(snackbarHostState)
@@ -145,24 +144,42 @@ fun telaLogin(
 
             Button(
                 onClick = {
+//                    MainScope().launch {
+//                        val usuario = dadosViewModel.findById(1)
+//                        //navigate aqui
+//                    }
 
                     MainScope().launch {
-                        val usuario = dadosViewModel.findById(1)
-                        //navigate aqui
-                    }
+                        val pass = dadosViewModel.findByLogin(
+                            dadosViewModel.uiState.value.login,
+                            dadosViewModel.uiState.value.senha
+                        )
 
-                    if (passState.value.senha == "admin" && loginState.value.login == "admin")
-                    //navController.navigate("telaCadastro")
-                        onLogin()
-                    else {
-                        coroutineScope.launch {
-                           focus.clearFocus()
+                        if (pass){
+                            onLogin()
+                        }else{
+                            coroutineScope.launch {
+                            focus.clearFocus()
                             snackbarHostState.showSnackbar(
                                 message = "login ou Senha errados",
                                 withDismissAction = true
                             )
                         }
+                        }
+
                     }
+//                    if (passState.value.senha == "admin" && loginState.value.login == "admin")
+//                    //navController.navigate("telaCadastro")
+//                        onLogin()
+//                    else {
+//                        coroutineScope.launch {
+//                           focus.clearFocus()
+//                            snackbarHostState.showSnackbar(
+//                                message = "login ou Senha errados",
+//                                withDismissAction = true
+//                            )
+//                        }
+//                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

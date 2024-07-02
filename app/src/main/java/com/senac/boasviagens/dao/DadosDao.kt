@@ -27,6 +27,9 @@ interface DadosDao {
     @Query("select * from dados p where p.id = :id")
     suspend fun findById(id : Long) : Dados? //interrogação poder ser que nao retorne o produto
 
+    @Query("select * from dados p where p.login = :login")
+    suspend fun findByLogin(login : String) : Dados?
+
     @Delete
     fun delete (dados: Dados)
 }
