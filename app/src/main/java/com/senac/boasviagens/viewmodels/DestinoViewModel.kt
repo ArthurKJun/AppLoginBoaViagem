@@ -71,5 +71,11 @@ class DestinoViewModel(val destinoDao: DestinoDao) : ViewModel(){
 
     fun getAll() = destinoDao.getAll()
 
+    fun delet(destino: Destino) {//quando da erro de quebra no acesso tem que por viewmodelscope
+        viewModelScope.launch {
+            destinoDao.delete(destino)
+        }
+
+    }
 
 }

@@ -25,7 +25,7 @@ interface DadosDao {
     fun getAll() : Flow<List<Dados>> //flow monitora o banco e traz as alterações
 
     @Query("select * from dados p where p.id = :id")
-    fun findById(id : Long) : Dados? //interrogação poder ser que nao retorne o produto
+    suspend fun findById(id : Long) : Dados? //interrogação poder ser que nao retorne o produto
 
     @Delete
     fun delete (dados: Dados)

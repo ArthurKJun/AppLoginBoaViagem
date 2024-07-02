@@ -46,17 +46,11 @@ fun Viagens(onBack: ()->Unit) {
         val showDatePickerDialogInicio = remember {
             mutableStateOf(false)
         }
-        val selectedDateInicio = remember {
-            mutableStateOf("")
-        }
 
         val datePickerStateInicio = rememberDatePickerState()
 
         val showDatePickerDialogFinal = remember {
             mutableStateOf(false)
-        }
-        val selectedDateFinal = remember {
-            mutableStateOf("")
         }
 
         val datePickerStateFinal = rememberDatePickerState()
@@ -227,7 +221,7 @@ fun Viagens(onBack: ()->Unit) {
                 }
 
                 OutlinedTextField(
-                    value = destinoViewModel.uiState.collectAsState().value.inicio,
+                    value = destinoViewModel.uiState.collectAsState().value.fim,
                     onValueChange = {destinoViewModel.updadeFim(it)},
                     modifier = Modifier
                         .padding(8.dp)

@@ -11,6 +11,7 @@ import com.senac.boasviagens.models.Destino
 
 @Database(entities = [Dados::class, Destino::class], version = 1, exportSchema = false)
 abstract class AppDataBase : RoomDatabase() {
+//CADA VEZ QUE ADICIONA UMA TABELA NOVA TEM QUE MUDAR O NOME DO BANCO
 
     abstract val dadosDao: DadosDao
     abstract  val destinoDao : DestinoDao

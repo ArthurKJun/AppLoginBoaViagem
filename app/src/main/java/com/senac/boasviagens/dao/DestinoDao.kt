@@ -27,6 +27,6 @@ interface DestinoDao {
     fun findById(id : Long) : Destino? //interrogação poder ser que nao retorne o produto
 
     @Delete
-    fun delete (destino: Destino)
+    suspend fun delete (destino: Destino)
 
 }

@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.senac.boasviagens.dataBase.AppDataBase
 import com.senac.boasviagens.viewmodels.DadosViewModelFactory
+import kotlinx.coroutines.MainScope
 
 @Composable
 fun telaLogin(
@@ -144,6 +145,12 @@ fun telaLogin(
 
             Button(
                 onClick = {
+
+                    MainScope().launch {
+                        val usuario = dadosViewModel.findById(1)
+                        //navigate aqui
+                    }
+
                     if (passState.value.senha == "admin" && loginState.value.login == "admin")
                     //navController.navigate("telaCadastro")
                         onLogin()

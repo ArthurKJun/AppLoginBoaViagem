@@ -128,8 +128,10 @@ fun cadUsuario(
         Row {
             Button(
                 onClick = {
-                    onBack()
+
                     dadosViewModel.saveNew()
+                    onBack()
+
                 },
                 modifier = Modifier
                     .padding(start = 127.dp, top = 25.dp)

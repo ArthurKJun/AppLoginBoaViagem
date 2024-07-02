@@ -1,9 +1,13 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.senac.boasviagens.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -55,11 +59,11 @@ fun Destinos() {
         factory = DestinoViewModelFactory(AppDataBase.getDatabase(LocalContext.current))
     )
 
-    val list = listOf(
-        Destino(1, "Egito", "12/12/2022", "05/01/2023", 12585.50, "lazer"),
-        Destino(2, "França", "08/12/2021", "02/01/2022", 45398.45, "trabalho"),
-        Destino(3, "Suiça", "18/12/2020", "03/01/2021", 65524.25, "lazer")
-    )
+//    val list = listOf(
+//        Destino(1, "Egito", "12/12/2022", "05/01/2023", 12585.50, "lazer"),
+//        Destino(2, "França", "08/12/2021", "02/01/2022", 45398.45, "trabalho"),
+//        Destino(3, "Suiça", "18/12/2020", "03/01/2021", 65524.25, "lazer")
+//    )
 
     val destinosLista = destinoViewModel.getAll().collectAsState(initial = emptyList())
 
@@ -105,13 +109,25 @@ fun Destinos() {
                     dest()
                 }
 
+                composable("viagem/{id}") {
+                    Viagens(
+                        onBack = {navController.navigateUp()}
+                    )
+                }
+
             }
-
-
 
             LazyColumn {
                 items(items = destinosLista.value) {
-                    DestinoCard(p = it)
+                    DestinoCard(
+                        p = it,
+                        onDelete =  {
+                            destinoViewModel.delet(it)
+                        },
+                        onEdit = {
+                            navController.navigate("viagem")
+                        }
+                    )
                 }
             }
 
@@ -122,23 +138,26 @@ fun Destinos() {
 }
 
 @Composable
-fun DestinoCard(p: Destino) {
+fun DestinoCard(p: Destino, onDelete: () -> Unit, onEdit: () -> Unit) {
     val ctx = LocalContext.current
     Card(elevation = CardDefaults.cardElevation(
         defaultElevation = 8.dp
+
     ),
         border = BorderStroke(1.dp, Color.Gray),
         modifier = Modifier
             .padding(4.dp)
             .fillMaxSize()
-            .clickable {
-                Toast
-                    .makeText(
-                        ctx, "Destino: ${p.destino}",
-                        Toast.LENGTH_SHORT
-                    )
-                    .show()
-            }
+            .combinedClickable(
+                onClick = {
+                    onEdit()
+                },
+                onLongClick = {
+                    onDelete()
+                }
+            )
+
+
     ) {
         Column(modifier = Modifier.padding(4.dp)) {
 

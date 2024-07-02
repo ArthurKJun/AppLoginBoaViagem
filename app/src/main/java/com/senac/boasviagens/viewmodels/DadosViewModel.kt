@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.senac.boasviagens.dao.DadosDao
 import com.senac.boasviagens.dataBase.AppDataBase
 import com.senac.boasviagens.models.Dados
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -62,6 +64,20 @@ class DadosViewModel (val dadosDao: DadosDao): ViewModel(){
     private fun new() {
         _uiState.update {
             it.copy(id = 0, login = "", senha = "", visivel = false ,email = "")
+        }
+    }
+
+    suspend fun findById(id: Long) : Dados? {
+        val deferred : Deferred<Dados?> =  viewModelScope.async {
+            dadosDao.findById(id)
+        }
+        return deferred.await()
+    }
+    //user = deferred.await() if user.login == parameter && user.senha == parameter.senha then true
+
+    suspend fun findByLogin(dados: Dados) : Dados?{
+        val deferred : Deferred<Dados?> = viewModelScope.async {
+            dadosDao.
         }
     }
 }
