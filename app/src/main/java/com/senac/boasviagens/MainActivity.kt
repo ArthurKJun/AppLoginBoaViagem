@@ -52,7 +52,7 @@ fun MyApp(){
                         navController.navigate("cadUsuario")
                     },
                         onLogin = {
-                            navController.navigate("Menu")
+                            navController.navigate("menu/${it}")
                         })
                 }
 
@@ -60,8 +60,9 @@ fun MyApp(){
                     cadUsuario(onBack = {navController.navigateUp()})
                 }
 
-                composable("menu"){
-                    Menu()
+                composable("menu/id"){
+                    val id  = it.arguments?.getString("id")
+                    Menu(id = id)
                 }
 
             }

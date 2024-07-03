@@ -75,16 +75,16 @@ class DadosViewModel (val dadosDao: DadosDao): ViewModel(){
     }
     //user = deferred.await() if user.login == parameter && user.senha == parameter.senha then true
 
-    suspend fun findByLogin(login: String, senha: String) : Boolean{
+    suspend fun findByLogin(login: String, senha: String) : Long?{
         val deferred : Deferred<Dados?> = viewModelScope.async {
             dadosDao.findByLogin(login)
         }
         val user = deferred.await()
 
         if (login == user?.login && senha == user.senha){
-            return true
+            return user.id
         }else{
-            return false
+            return null
         }
     }
 }

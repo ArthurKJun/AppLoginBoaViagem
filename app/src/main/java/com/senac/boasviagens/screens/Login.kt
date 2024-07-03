@@ -42,7 +42,7 @@ import kotlinx.coroutines.MainScope
 @Composable
 fun telaLogin(
     onCadUsuario: () -> Unit,
-    onLogin: () -> Unit
+    onLogin: (pass : String) -> Unit
 ) {
     val db = AppDataBase.getDatabase(LocalContext.current)
 
@@ -155,8 +155,8 @@ fun telaLogin(
                             dadosViewModel.uiState.value.senha
                         )
 
-                        if (pass){
-                            onLogin()
+                        if (pass != null){
+                            onLogin(pass.toString())
                         }else{
                             coroutineScope.launch {
                             focus.clearFocus()
