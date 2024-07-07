@@ -72,6 +72,7 @@ class DadosViewModel (val dadosDao: DadosDao): ViewModel(){
             dadosDao.findById(id)
         }
         return deferred.await()
+
     }
     //user = deferred.await() if user.login == parameter && user.senha == parameter.senha then true
 
@@ -87,4 +88,14 @@ class DadosViewModel (val dadosDao: DadosDao): ViewModel(){
             return null
         }
     }
+
+    fun setUiState(dados: Dados) {
+        _uiState.value = uiState.value.copy(
+            id = dados.id,
+            login = dados.login,
+            email = dados.email,
+            senha = dados.senha,
+        )
+    }
+
 }

@@ -36,6 +36,8 @@ class MainActivity : ComponentActivity() {
 }
 
 
+
+
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun MyApp(){
@@ -60,9 +62,11 @@ fun MyApp(){
                     cadUsuario(onBack = {navController.navigateUp()})
                 }
 
-                composable("menu/id"){
-                    val id  = it.arguments?.getString("id")
-                    Menu(id = id)
+                composable("menu/{id}"){ entry ->
+                    entry.arguments?.getString("id")?.let { it
+                        Menu(it)
+                    }
+
                 }
 
             }

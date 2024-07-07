@@ -35,6 +35,9 @@ import com.senac.boasviagens.R
 import com.senac.boasviagens.viewmodels.DadosViewModel
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.senac.boasviagens.dataBase.AppDataBase
 import com.senac.boasviagens.viewmodels.DadosViewModelFactory
 import kotlinx.coroutines.MainScope
@@ -68,6 +71,7 @@ fun telaLogin(
                 .padding(it)
 
         ) {
+
 
             val loginState = dadosViewModel.uiState.collectAsState()
             val passState = dadosViewModel.uiState.collectAsState()
@@ -199,6 +203,8 @@ fun telaLogin(
             ) {
                 Text(text = "Registrar novo Usuário")
             }
+
+
         }
     }
 }

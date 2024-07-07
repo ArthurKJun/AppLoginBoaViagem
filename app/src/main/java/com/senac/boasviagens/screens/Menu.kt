@@ -11,11 +11,14 @@ import androidx.compose.material.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -29,13 +32,15 @@ import com.senac.boasviagens.dataBase.AppDataBase
 import com.senac.boasviagens.models.Dados
 import com.senac.boasviagens.viewmodels.DadosViewModel
 import com.senac.boasviagens.viewmodels.DadosViewModelFactory
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.coroutineScope
 
 private fun isSelected(currentDestination: NavDestination?, route: String): Boolean {
     return currentDestination?.hierarchy?.any { it.route == route } == true
 }
 
 @Composable
-fun Home(id: String? = null) {
+fun Home(id: String) {
 
     Scaffold(
         topBar = {
@@ -49,7 +54,14 @@ fun Home(id: String? = null) {
             factory = DadosViewModelFactory(db)
         )
 
+        LaunchedEffect(id) {
+            if (id != null) {
+                val user = dadosViewModel.findById(id.toLong())
+                user?.let { dadosViewModel.setUiState(it) }
+            }
+        }
 
+        val state = dadosViewModel.uiState.collectAsState()
 
         Column(
             modifier = Modifier
@@ -58,25 +70,20 @@ fun Home(id: String? = null) {
 
         ) {
 
-
             Row {
-                if (id != null) {
 
-                    val user = suspend { dadosViewModel.findById(id.toLong()) }
+                Text(
+                    text = "Bem vindo " + state.value.login,
+                    fontSize = 22.sp
+                )
 
-                    Text(text = "Usuario Chegou aki")
-
-                } else {
-
-                    Text(text = "Usuario nao encontrado")
-                }
             }
         }
     }
 }
 
 @Composable
-fun Menu(id: String? = null) {
+fun Menu(id: String) {
 
     val navController = rememberNavController()
 
@@ -158,5 +165,5 @@ fun Menu(id: String? = null) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewMenu() {
-    Menu(id = null)
+    Menu("")
 }
