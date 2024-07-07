@@ -148,10 +148,6 @@ fun telaLogin(
 
             Button(
                 onClick = {
-//                    MainScope().launch {
-//                        val usuario = dadosViewModel.findById(1)
-//                        //navigate aqui
-//                    }
 
                     MainScope().launch {
                         val pass = dadosViewModel.findByLogin(

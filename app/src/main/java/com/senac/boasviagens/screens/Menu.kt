@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.PathNode
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,7 +46,7 @@ fun Home(id: String) {
 
     Scaffold(
         topBar = {
-            MyTopBar("Home")
+            MyTopBar("App Boa Viagem") {System.exit(1)}
         }
     ) {
 
@@ -78,6 +80,7 @@ fun Home(id: String) {
                 )
 
             }
+
         }
     }
 }
@@ -143,9 +146,10 @@ fun Menu(id: String) {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = "home/id"
+                startDestination = "home"
             ) {
-                composable("home/id") {
+                composable("home") {
+
                     Home(id)
                 }
                 composable("destinos") {
@@ -153,6 +157,7 @@ fun Menu(id: String) {
                 }
 
                 composable("sobre") {
+
                     Sobre()
                 }
 

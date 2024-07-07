@@ -24,7 +24,7 @@ interface DestinoDao {
     fun getAll() : Flow<List<Destino>> //flow monitora o banco e traz as alterações
 
     @Query("select * from destino p where p.id = :id")
-    fun findById(id : Long) : Destino? //interrogação poder ser que nao retorne o produto
+    suspend fun findById(id : Long) : Destino? //interrogação poder ser que nao retorne o produto
 
     @Delete
     suspend fun delete (destino: Destino)

@@ -2,11 +2,9 @@
 
 package com.senac.boasviagens.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -37,11 +36,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.senac.boasviagens.R
-import com.senac.boasviagens.components.MyTopBar
 import com.senac.boasviagens.dataBase.AppDataBase
 import com.senac.boasviagens.models.Destino
 import com.senac.boasviagens.viewmodels.DestinoViewModel
@@ -69,23 +69,29 @@ fun Destinos() {
 
     val navController = rememberNavController()
 
+    val currentBackStackEntry by navController.currentBackStackEntryFlow.collectAsState(initial = navController.currentBackStackEntry)
+    val showFab = currentBackStackEntry?.destination?.route == "dest"
+
     val ctx = LocalContext.current
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
 
-                    navController.navigate("viagem")
+            if (showFab) {
+                FloatingActionButton(
+                    onClick = {
+
+                        navController.navigate("viagem/${-1L}")
 //                    Toast.makeText(
 //                        ctx, "novo",
 //                        Toast.LENGTH_SHORT
 //                    ).show()
-                }) {
-                Icon(
-                    imageVector = Icons.Default.AddCircle,
-                    contentDescription = ""
-                )
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.AddCircle,
+                        contentDescription = ""
+                    )
+                }
             }
         }
 
@@ -99,23 +105,27 @@ fun Destinos() {
                 navController = navController,
                 startDestination = "dest"
             ) {
-                composable("viagem") {
-                    Viagens(
-                        onBack = {navController.navigateUp()}
-                    )
-                }
 
                 composable("dest") {
                     dest()
                 }
 
-                composable("viagem/{id}") {
-                    Viagens(
-                        onBack = {navController.navigateUp()}
-                    )
+                composable("viagem/{destinoId}", arguments = listOf(navArgument("destinoId"){
+                    type = NavType.LongType ; defaultValue = -1L})) { entry ->
+                    entry.arguments?.getLong("destinoId").let { it
+                        Viagens(
+                            onBack = {navController.navigateUp()}, it
+                        )
+                    }
+
                 }
 
             }
+
+//            arguments = listOf(navArgument("viagemId") { type = NavType.LongType; defaultValue = -1L })) { backStackEntry ->
+//            val viagemId = backStackEntry.arguments?.getLong("viagemId")
+
+
 
             LazyColumn {
                 items(items = destinosLista.value) {
@@ -125,7 +135,7 @@ fun Destinos() {
                             destinoViewModel.delet(it)
                         },
                         onEdit = {
-                            navController.navigate("viagem")
+                            navController.navigate("viagem/${it.id}")
                         }
                     )
                 }

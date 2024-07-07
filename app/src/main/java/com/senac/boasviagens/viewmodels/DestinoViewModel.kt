@@ -5,7 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.senac.boasviagens.dao.DestinoDao
 import com.senac.boasviagens.dataBase.AppDataBase
+import com.senac.boasviagens.models.Dados
 import com.senac.boasviagens.models.Destino
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -77,5 +80,25 @@ class DestinoViewModel(val destinoDao: DestinoDao) : ViewModel(){
         }
 
     }
+
+    suspend fun findById(id: Long) : Destino? {
+        val deferred : Deferred<Destino?> =  viewModelScope.async {
+            destinoDao.findById(id)
+        }
+        return deferred.await()
+
+    }
+
+    fun setUiState(destino: Destino) {
+        _uiState.value = uiState.value.copy(
+            id = destino.id,
+            destino = destino.destino,
+            inicio = destino.inicio,
+            fim = destino.fim,
+            finalidade = destino.finalidade,
+            valor = destino.valor
+        )
+    }
+
 
 }
