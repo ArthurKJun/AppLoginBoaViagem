@@ -35,44 +35,42 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-
-
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun MyApp(){
+fun MyApp() {
 
     val navController = rememberNavController()
 
-            NavHost(
-                navController = navController,
-                startDestination = "telaLogin"
-            ){
-                composable("telaLogin"){
+    NavHost(
+        navController = navController,
+        startDestination = "telaLogin"
+    ) {
+        composable("telaLogin") {
 
-                    telaLogin (onCadUsuario = {
-                        navController.navigate("cadUsuario")
-                    },
-                        onLogin = {
-                            navController.navigate("menu/${it}")
-                        })
-                }
+            telaLogin(onCadUsuario = {
+                navController.navigate("cadUsuario")
+            },
+                onLogin = {
+                    navController.navigate("menu/${it}")
+                })
+        }
 
-                composable("cadUsuario"){
-                    cadUsuario(onBack = {navController.navigateUp()})
-                }
+        composable("cadUsuario") {
+            cadUsuario(onBack = { navController.navigateUp() })
+        }
 
-                composable("menu/{id}"){ entry ->
-                    entry.arguments?.getString("id")?.let { it
-                        Menu(it)
-                    }
-
-                }
-
+        composable("menu/{id}") { entry ->
+            entry.arguments?.getString("id")?.let {
+                it
+                Menu(it)
             }
 
-
         }
+
+    }
+
+
+}
 
 
 
